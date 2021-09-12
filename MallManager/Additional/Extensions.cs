@@ -1,15 +1,17 @@
-﻿using System;
+﻿using MallManager.DAL.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace MallManager.Additional
 {
     public static class Extensions
     {
-        public static List<T> ToList<T>(this DataTable table) where T : new()
+        public static List<T> ToList<T>(this DataTable table) where T : BaseEntity, new()
         {
             IList<PropertyInfo> properties = typeof(T).GetProperties().ToList();
             List<T> result = new List<T>();
@@ -23,7 +25,7 @@ namespace MallManager.Additional
             return result;
         }
 
-        private static T CreateItemFromRow<T>(DataRow row, IList<PropertyInfo> properties) where T : new()
+        private static T CreateItemFromRow<T>(DataRow row, IList<PropertyInfo> properties) where T : BaseEntity, new()
         {
             T item = new T();
             foreach (var property in properties)
@@ -87,6 +89,18 @@ namespace MallManager.Additional
             }
 
             return enumValList;
+        }
+
+        public static void TryCatchWithMessageBoxShow(Action action)
+        {
+            try
+            {
+                action();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

@@ -1,15 +1,11 @@
-﻿using MallManager.DAL;
+﻿using MallManager.Additional;
 using MallManager.DAL.Entities;
 using MallManager.Forms;
+using MallManager.Managers;
 using MallManager.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MallManager
@@ -21,14 +17,16 @@ namespace MallManager
             this.InitializeComponent();
         }
 
-        public EntityManager Em { get { return EntityManager.Active; } }
+        public EntityManager Em { get { return ManagerHelper.Entity; } }
 
         private void fmMain_Load(object sender, EventArgs e)
         {
-            EntityManager.InitEntityManager();
-            this.LoadInterface();
-            this.RefreshData();
-            this.gvRoom.DataSource = this.Em.Room.GetList().Select(o => new RoomViewModel(o)).ToList();
+            Extensions.TryCatchWithMessageBoxShow(() =>
+            {
+                this.LoadInterface();
+                this.RefreshData();
+                this.gvRoom.DataSource = this.Em.Room.GetList().Select(o => new RoomViewModel(o)).ToList();
+            });
         }
 
         private void RefreshData()
@@ -79,41 +77,50 @@ namespace MallManager
 
         private void btn_Add_Click(object sender, EventArgs e)
         {
-            if (fmEditRoom.Execute(new Room()))
-                this.RefreshData();
+            Extensions.TryCatchWithMessageBoxShow(() =>
+            {
+                if (fmEditRoom.Execute(new Room()))
+                    this.RefreshData();
+            });
         }
 
         private void btn_Edit_Click(object sender, EventArgs e)
         {
-            if (this.gvRoom.CurrentRow == null)
-                return;
+            Extensions.TryCatchWithMessageBoxShow(() =>
+            {
+                if (this.gvRoom.CurrentRow == null)
+                    return;
 
-            var selectedItem = this.gvRoom.CurrentRow.DataBoundItem as RoomViewModel;
+                var selectedItem = this.gvRoom.CurrentRow.DataBoundItem as RoomViewModel;
 
-            if (selectedItem == null)
-                return;
+                if (selectedItem == null)
+                    return;
 
-            if (fmEditRoom.Execute(selectedItem.DataModel))
-                this.RefreshData();
+                if (fmEditRoom.Execute(selectedItem.DataModel))
+                    this.RefreshData();
+            });
         }
 
         private void btn_Delete_Click(object sender, EventArgs e)
         {
-            if (this.gvRoom.CurrentRow == null)
-                return;
-
-            var selectedItem = this.gvRoom.CurrentRow.DataBoundItem as RoomViewModel;
-
-            if (selectedItem == null)
-                return;
-
-            var deleteDialogResult = MessageBox.Show("Удалить выбранное помещение?", "Внимание", MessageBoxButtons.YesNo);
-
-            if (deleteDialogResult == System.Windows.Forms.DialogResult.Yes)
+            Extensions.TryCatchWithMessageBoxShow(() =>
             {
-                this.Em.Room.Delete(selectedItem.DataModel.Id);
-                this.RefreshData();
-            }
+                if (this.gvRoom.CurrentRow == null)
+                    return;
+
+                var selectedItem = this.gvRoom.CurrentRow.DataBoundItem as RoomViewModel;
+
+                if (selectedItem == null)
+                    return;
+
+                var deleteDialogResult = MessageBox.Show("Удалить выбранное помещение?", "Внимание", MessageBoxButtons.YesNo);
+
+                if (deleteDialogResult == System.Windows.Forms.DialogResult.Yes)
+                {
+                    this.Em.Room.Delete(selectedItem.DataModel.Id);
+                    this.RefreshData();
+                }
+            });
         }
     }
 }

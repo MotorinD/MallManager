@@ -1,14 +1,8 @@
 ﻿using MallManager.Additional;
-using MallManager.DAL;
 using MallManager.DAL.Entities;
+using MallManager.Managers;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MallManager.Forms
@@ -24,7 +18,7 @@ namespace MallManager.Forms
 
         public bool IsAdd { get; set; }
 
-        public EntityManager Em { get { return EntityManager.Active; } }
+        public EntityManager Em { get { return ManagerHelper.Entity; } }
 
         public List<Room> ClassRoomList { get; set; }
 
@@ -119,13 +113,16 @@ namespace MallManager.Forms
 
         private void btnSave_Click(object sender, MouseEventArgs e)
         {
-            if (!this.CheckData())
+            Extensions.TryCatchWithMessageBoxShow(() =>
             {
-                this.DialogResult = System.Windows.Forms.DialogResult.None;
-                return;
-            }
+                if (!this.CheckData())
+                {
+                    this.DialogResult = System.Windows.Forms.DialogResult.None;
+                    return;
+                }
 
-            this.SaveData();
+                this.SaveData();
+            });
         }
     }
 }
