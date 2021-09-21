@@ -5,17 +5,24 @@ using System.Linq;
 using MallManager.Managers;
 using MallManager.Interfaces;
 using System.Data;
-using MallManager.Additional;
 using System.ComponentModel.DataAnnotations;
 using MallManager.DAL.Entities;
 using System.Reflection;
+using MallManager.Additional;
 
 namespace MallManager.DAL
 {
-    public class SqlRepository<TEntity> : IBaseRepository<TEntity>
+    /// <summary>
+    /// Универсальный класс для предоставлению доступа к данным указанного типа в БД SQL Server
+    /// </summary>
+    public class SqlRepository<TEntity> : IBaseRepository<TEntity> 
         where TEntity : BaseEntity, new()
     {
         private SqlConnection _sqlConnection => (SqlConnection)ManagerHelper.DBConnection.GetConnection();
+
+        /// <summary>
+        /// Получить весь список сущностей
+        /// </summary>
         public List<TEntity> GetList()
         {
             var entityName = typeof(TEntity).Name;
@@ -32,6 +39,10 @@ namespace MallManager.DAL
             return res;
         }
 
+        /// <summary>
+        /// Получить один объект сущности по идентификатору
+        /// </summary>
+        /// <param name="id"></param>
         public TEntity Get(int id)
         {
             var entityName = typeof(TEntity).Name;
@@ -48,6 +59,9 @@ namespace MallManager.DAL
             return res;
         }
 
+        /// <summary>
+        /// Добавить новую сущность
+        /// </summary>
         public void Add(TEntity entity)
         {
             var entityName = typeof(TEntity).Name;
@@ -76,6 +90,9 @@ namespace MallManager.DAL
             this.ExecuteActionAndCloseConnection(() => cmd.ExecuteNonQuery());
         }
 
+        /// <summary>
+        /// Редактировать сущность
+        /// </summary>
         public void Edit(TEntity entity)
         {
             var entityName = typeof(TEntity).Name;
@@ -103,6 +120,10 @@ namespace MallManager.DAL
             this.ExecuteActionAndCloseConnection(() => cmd.ExecuteNonQuery());
         }
 
+        /// <summary>
+        /// Удалить сущность по идентификатору
+        /// </summary>
+        /// <param name="id"></param>
         public void Delete(int id)
         {
             var entityName = typeof(TEntity).Name;
@@ -112,7 +133,7 @@ namespace MallManager.DAL
             this.ExecuteActionAndCloseConnection(() => cmd.ExecuteNonQuery());
         }
 
-        private void AddParametersToSqlCommand(TEntity entity, System.Reflection.PropertyInfo[] propertyesArr, SqlCommand cmd)
+        private void AddParametersToSqlCommand(TEntity entity, PropertyInfo[] propertyesArr, SqlCommand cmd)
         {
             for (int i = 0; i < propertyesArr.Length; i++)
             {

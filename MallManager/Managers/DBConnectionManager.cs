@@ -3,6 +3,9 @@ using System.Data.Common;
 using System.Data.SqlClient;
 namespace MallManager.Managers
 {
+    /// <summary>
+    /// Менеджер доступа к подключению к БД
+    /// </summary>
     public class DBConnectionManager
     {
         private readonly string _connectionString;
@@ -11,7 +14,7 @@ namespace MallManager.Managers
         public DBConnectionManager()
         {
             this._connectionString = ManagerHelper.AppConfig.GetDBConnectionString();
-            this.SetConnectionToDB();
+            this.InitConnectionToDB();
         }
 
         public DbConnection GetConnection()
@@ -19,7 +22,7 @@ namespace MallManager.Managers
             return this._dbConnection;
         }
 
-        private void SetConnectionToDB()
+        private void InitConnectionToDB()
         {
             try
             {

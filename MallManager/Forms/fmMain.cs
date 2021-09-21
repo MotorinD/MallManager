@@ -1,5 +1,4 @@
-﻿using MallManager.Additional;
-using MallManager.DAL.Entities;
+﻿using MallManager.DAL.Entities;
 using MallManager.Forms;
 using MallManager.Managers;
 using MallManager.ViewModels;
@@ -17,58 +16,73 @@ namespace MallManager
             this.InitializeComponent();
         }
 
-        public EntityManager Em { get { return ManagerHelper.Entity; } }
-
         private void fmMain_Load(object sender, EventArgs e)
         {
-            Extensions.TryCatchWithMessageBoxShow(() =>
+            try
             {
                 this.LoadInterface();
                 this.RefreshData();
-                this.gvRoom.DataSource = this.Em.Room.GetList().Select(o => new RoomViewModel(o)).ToList();
-            });
+                this.gvRoom.DataSource = ManagerHelper.Entity.Room.GetList().Select(o => new RoomViewModel(o)).ToList();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void RefreshData()
         {
             try
             {
-                var curIndex = 0;
-
-                if (this.gvRoom.CurrentRow != null)
-                {
-                    curIndex = this.gvRoom.CurrentRow.Index;
-                    this.gvRoom.CurrentRow.Selected = false;
-                }
-
-                var dataSource = this.Em.Room.GetList().Select(o => new RoomViewModel(o)).ToList();
-
-                this.gvRoom.DataSource = dataSource;
-                this.gvRoom.ClearSelection();
-
-                foreach (DataGridViewRow row in this.gvRoom.Rows)
-                {
-                    var item = row.DataBoundItem as RoomViewModel;
-                }
-
-                if (this.gvRoom.Rows.Count > 0)
-                    if (this.gvRoom.Rows.Count > curIndex)
-                    {
-                        this.gvRoom.Rows[curIndex].Selected = true;
-                        this.gvRoom.CurrentCell = this.gvRoom[0, curIndex];
-                    }
-                    else
-                    {
-                        this.gvRoom.Rows[this.gvRoom.Rows.Count - 1].Selected = true;
-                        this.gvRoom.CurrentCell = this.gvRoom[0, this.gvRoom.Rows.Count - 1];
-                    }
+                this.SaveGridVievState();
+                this.gvRoom.DataSource = ManagerHelper.Entity.Room.GetList().Select(o => new RoomViewModel(o)).ToList();
+                this.RestoreGridViewState();
             }
             catch
             {
-                var dataSource = this.Em.Room.GetList().Select(o => new RoomViewModel(o)).ToList();
+                var dataSource = ManagerHelper.Entity.Room.GetList().Select(o => new RoomViewModel(o)).ToList();
                 this.gvRoom.DataSource = dataSource;
             }
         }
+
+        #region Scroll and Select row position Save and Restore
+
+        private int _firstVisibleRowIndex = 0;
+        private int _selectedRowIndex = 0;
+
+        /// <summary>
+        /// Сохранить положение прокрутки и выбранную строку таблицы
+        /// </summary>
+        private void SaveGridVievState()
+        {
+            this._firstVisibleRowIndex = this.gvRoom.FirstDisplayedScrollingRowIndex;
+            this._selectedRowIndex = this.gvRoom.CurrentRow?.Index ?? 0;
+        }
+
+        /// <summary>
+        /// Восстановить положение прокрутки и выбранную строку таблицы
+        /// </summary>
+        private void RestoreGridViewState()
+        {
+            this.gvRoom.ClearSelection();
+
+            if (this.gvRoom.Rows.Count > 0)
+                if (this.gvRoom.Rows.Count > this._selectedRowIndex)
+                {
+                    this.gvRoom.Rows[this._selectedRowIndex].Selected = true;
+                    this.gvRoom.CurrentCell = this.gvRoom[0, this._selectedRowIndex];
+                }
+                else
+                {
+                    this.gvRoom.Rows[this.gvRoom.Rows.Count - 1].Selected = true;
+                    this.gvRoom.CurrentCell = this.gvRoom[0, this.gvRoom.Rows.Count - 1];
+                }
+
+            if (this._firstVisibleRowIndex > 0)
+                this.gvRoom.FirstDisplayedScrollingRowIndex = this._firstVisibleRowIndex;
+        }
+
+        #endregion
 
         private void LoadInterface()
         {
@@ -77,16 +91,20 @@ namespace MallManager
 
         private void btn_Add_Click(object sender, EventArgs e)
         {
-            Extensions.TryCatchWithMessageBoxShow(() =>
+            try
             {
                 if (fmEditRoom.Execute(new Room()))
                     this.RefreshData();
-            });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btn_Edit_Click(object sender, EventArgs e)
         {
-            Extensions.TryCatchWithMessageBoxShow(() =>
+            try
             {
                 if (this.gvRoom.CurrentRow == null)
                     return;
@@ -98,12 +116,16 @@ namespace MallManager
 
                 if (fmEditRoom.Execute(selectedItem.DataModel))
                     this.RefreshData();
-            });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btn_Delete_Click(object sender, EventArgs e)
         {
-            Extensions.TryCatchWithMessageBoxShow(() =>
+            try
             {
                 if (this.gvRoom.CurrentRow == null)
                     return;
@@ -117,10 +139,14 @@ namespace MallManager
 
                 if (deleteDialogResult == System.Windows.Forms.DialogResult.Yes)
                 {
-                    this.Em.Room.Delete(selectedItem.DataModel.Id);
+                    ManagerHelper.Entity.Room.Delete(selectedItem.DataModel.Id);
                     this.RefreshData();
                 }
-            });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

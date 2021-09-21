@@ -1,26 +1,22 @@
-﻿using MallManager.Additional;
+﻿using MallManager.Enums;
 using MallManager.DAL.Entities;
 using MallManager.Managers;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using MallManager.Additional;
 
 namespace MallManager.Forms
 {
+    /// <summary>
+    /// Форма редактирования помещений
+    /// </summary>
     public partial class fmEditRoom : Form
     {
         public fmEditRoom()
         {
             this.InitializeComponent();
         }
-
-        public Room DataModel { get; set; }
-
-        public bool IsAdd { get; set; }
-
-        public EntityManager Em { get { return ManagerHelper.Entity; } }
-
-        public List<Room> ClassRoomList { get; set; }
 
         public static bool Execute(Room dataModel)
         {
@@ -36,10 +32,27 @@ namespace MallManager.Forms
             }
         }
 
+        /// <summary>
+        /// Редактируемая модель
+        /// </summary>
+        public Room DataModel { get; set; }
+
+        /// <summary>
+        /// Режим редактирования: True если происходит добавление, False если происходит изменение существующей записи
+        /// </summary>
+        public bool IsAdd { get; set; }
+
         private void fmEditClassRoom_Load(object sender, EventArgs e)
         {
-            this.LoadInterface();
-            this.LoadData();
+            try
+            {
+                this.LoadInterface();
+                this.LoadData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void LoadInterface()
@@ -50,7 +63,6 @@ namespace MallManager.Forms
         private void LoadData()
         {
             this.cbType.DataSource = Extensions.GetEnumValuesAndDescriptions<RoomTypeEnum>();
-            this.ClassRoomList = this.Em.Room.GetList();
 
             if (!this.IsAdd)
             {
@@ -61,39 +73,30 @@ namespace MallManager.Forms
             }
         }
 
+        private void btnSave_Click(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                if (!this.CheckData())
+                {
+                    this.DialogResult = DialogResult.None;
+                    return;
+                }
+
+                this.SaveData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
         private bool CheckData()
         {
             var res = true;
 
-            if (string.IsNullOrWhiteSpace(this.tbSquare.Text))
-            {
-                this.errorProvider.SetError(this.tbSquare, "Введите значение");
-                res = false;
-            }
-            else
-            {
-                var num = 0m;
-                if (!Decimal.TryParse(this.tbSquare.Text, out num))
-                {
-                    this.errorProvider.SetError(this.tbSquare, "Значение должно быть числом");
-                    res = false;
-                }
-            }
-
-            if (string.IsNullOrWhiteSpace(this.tbPrice.Text))
-            {
-                this.errorProvider.SetError(this.tbPrice, "Введите значение");
-                res = false;
-            }
-            else
-            {
-                var num = 0m;
-                if (!Decimal.TryParse(this.tbPrice.Text, out num))
-                {
-                    this.errorProvider.SetError(this.tbPrice, "Значение должно быть числом");
-                    res = false;
-                }
-            }
+            res &= ControlValidation.CheckControlTextIsExistAndDecimal(this.tbSquare, this.errorProvider);
+            res &= ControlValidation.CheckControlTextIsExistAndDecimal(this.tbPrice, this.errorProvider);
 
             return res;
         }
@@ -106,23 +109,11 @@ namespace MallManager.Forms
             this.DataModel.Description = this.tbDescription.Text;
 
             if (this.IsAdd)
-                this.Em.Room.Add(this.DataModel);
+                ManagerHelper.Entity.Room.Add(this.DataModel);
             else
-                this.Em.Room.Edit(this.DataModel);
+                ManagerHelper.Entity.Room.Edit(this.DataModel);
         }
 
-        private void btnSave_Click(object sender, MouseEventArgs e)
-        {
-            Extensions.TryCatchWithMessageBoxShow(() =>
-            {
-                if (!this.CheckData())
-                {
-                    this.DialogResult = System.Windows.Forms.DialogResult.None;
-                    return;
-                }
 
-                this.SaveData();
-            });
-        }
     }
 }

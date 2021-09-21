@@ -1,20 +1,30 @@
 ﻿using MallManager.DAL.Entities;
+using MallManager.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Reflection;
-using System.Windows.Forms;
 
 namespace MallManager.Additional
 {
+    /// <summary>
+    /// Обслуживающий класс с методами расширения
+    /// </summary>
     public static class Extensions
     {
-        public static List<T> ToList<T>(this DataTable table) where T : BaseEntity, new()
+        /// <summary>
+        /// Привести содерджимое DataTable к списку указанного типа.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="table"></param>
+        /// <returns></returns>
+        public static List<T> ToList<T>(this DataTable table)
+            where T : BaseEntity, new()
         {
-            IList<PropertyInfo> properties = typeof(T).GetProperties().ToList();
-            List<T> result = new List<T>();
+            var properties = typeof(T).GetProperties().ToList();
+            var result = new List<T>();
 
             foreach (var row in table.Rows)
             {
@@ -25,14 +35,21 @@ namespace MallManager.Additional
             return result;
         }
 
-        private static T CreateItemFromRow<T>(DataRow row, IList<PropertyInfo> properties) where T : BaseEntity, new()
+        /// <summary>
+        /// Сформировать объект указанного типа на основе данных из DataRow
+        /// </summary>
+        private static T CreateItemFromRow<T>(DataRow row, IList<PropertyInfo> properties = null)
+            where T : BaseEntity, new()
         {
-            T item = new T();
+            if (properties is null)
+                properties = typeof(T).GetProperties().ToList();
+
+            var item = new T();
             foreach (var property in properties)
             {
                 if (property.PropertyType == typeof(System.DayOfWeek))
                 {
-                    DayOfWeek day = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), row[property.Name].ToString());
+                    var day = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), row[property.Name].ToString());
                     property.SetValue(item, day, null);
                 }
                 else
@@ -46,6 +63,9 @@ namespace MallManager.Additional
             return item;
         }
 
+        /// <summary>
+        /// Получить строковое представление описания для элемента перечисления (атрибут Description у enum)
+        /// </summary>
         public static string GetDescription<T>(this T enumerationValue)
             where T : struct
         {
@@ -67,6 +87,9 @@ namespace MallManager.Additional
             return enumerationValue.ToString();
         }
 
+        /// <summary>
+        /// Сформировать список моделей описание-значение на основе указанного перечисления
+        /// </summary>
         public static List<EnumModel> GetEnumValuesAndDescriptions<T>()
         {
             Type enumType = typeof(T);
@@ -89,18 +112,6 @@ namespace MallManager.Additional
             }
 
             return enumValList;
-        }
-
-        public static void TryCatchWithMessageBoxShow(Action action)
-        {
-            try
-            {
-                action();
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
         }
     }
 }

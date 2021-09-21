@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MallManager.Managers
+﻿namespace MallManager.Managers
 {
+    /// <summary>
+    /// Менеджер доступа к моделям данных, содержащих бизнес-логику и используемых в приложении
+    /// </summary>
     public class DataManager
     {
     }

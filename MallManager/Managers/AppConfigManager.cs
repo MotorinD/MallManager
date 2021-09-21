@@ -3,6 +3,9 @@ using System.Configuration;
 
 namespace MallManager.Managers
 {
+    /// <summary>
+    /// Менеджер доступа к данным конфигурационного файла
+    /// </summary>
     public class AppConfigManager
     {
         public string GetDBConnectionString()

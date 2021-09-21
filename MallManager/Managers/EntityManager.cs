@@ -4,6 +4,9 @@ using MallManager.Interfaces;
 
 namespace MallManager.Managers
 {
+    /// <summary>
+    /// Менеджер доступа к сущностям соответствующих представлению в БД
+    /// </summary>
     public class EntityManager
     {
         public EntityManager()
