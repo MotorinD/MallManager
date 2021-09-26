@@ -12,6 +12,7 @@ namespace MallManager
         static void Main()
         {
             SetCultureFromSetting();
+
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

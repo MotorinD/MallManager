@@ -110,7 +110,5 @@ namespace MallManager.Forms
             else
                 ManagerHelper.Entity.Room.Edit(this.DataModel);
         }
-
-
     }
 }

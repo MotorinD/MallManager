@@ -23,12 +23,12 @@ namespace MallManager.ViewModels
         /// <summary>
         /// Площадь
         /// </summary>
-        public decimal Square { get; set; }
+        public string Square { get; set; }
 
         /// <summary>
         /// Стоимость
         /// </summary>
-        public decimal Price { get; set; }
+        public string Price { get; set; }
 
         /// <summary>
         /// Описание
@@ -39,15 +39,5 @@ namespace MallManager.ViewModels
         /// True если арендовано, False если свободно
         /// </summary>
         public bool IsRented { get; set; }
-
-        public RoomViewModel(Room dataModel)
-        {
-           
-            this.DataModel = dataModel;
-            this.Type = ((RoomTypeEnum)dataModel.Type).GetDescription();
-            this.Square = dataModel.Square;
-            this.Price = dataModel.Price;
-            this.Description = dataModel.Description;
-        }
     }
 }

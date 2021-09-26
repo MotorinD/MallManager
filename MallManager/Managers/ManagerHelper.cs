@@ -5,18 +5,6 @@
     /// </summary>
     public static class ManagerHelper
     {
-        private static AppConfigManager _appConfig;
-        public static AppConfigManager AppConfig
-        {
-            get
-            {
-                if (_appConfig is null)
-                    _appConfig = new AppConfigManager();
-
-                return _appConfig;
-            }
-        }
-
         private static DBConnectionManager _dbConnection;
         public static DBConnectionManager DBConnection
         {
@@ -28,7 +16,6 @@
                 return _dbConnection;
             }
         }
-
 
         private static EntityManager _entity;
         public static EntityManager Entity
@@ -63,6 +50,18 @@
                     _localization = new LocalizationManager();
 
                 return _localization;
+            }
+        }
+
+        private static MapperManager _mapper;
+        public static MapperManager Mapper
+        {
+            get
+            {
+                if (_mapper is null)
+                    _mapper = new MapperManager();
+
+                return _mapper;
             }
         }
     }

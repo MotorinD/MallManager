@@ -1,17 +1,17 @@
-﻿using MallManager.DAL.Entities;
+﻿using AutoMapper;
+using MallManager.DAL.Entities;
 using MallManager.Forms;
 using MallManager.Managers;
 using MallManager.ViewModels;
 using System;
-using System.Data;
-using System.Linq;
-using System.Threading;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace MallManager
 {
     public partial class fmMain : Form
     {
+        private Mapper _mapper => ManagerHelper.Mapper.GetActive();
         public fmMain()
         {
             this.InitializeComponent();
@@ -23,7 +23,6 @@ namespace MallManager
             {
                 this.LoadInterface();
                 this.RefreshData();
-                this.gvRoom.DataSource = ManagerHelper.Entity.Room.GetList().Select(o => new RoomViewModel(o)).ToList();
             }
             catch (Exception ex)
             {
@@ -33,17 +32,16 @@ namespace MallManager
 
         private void RefreshData()
         {
-            try
-            {
-                this.SaveGridVievState();
-                this.gvRoom.DataSource = ManagerHelper.Entity.Room.GetList().Select(o => new RoomViewModel(o)).ToList();
-                this.RestoreGridViewState();
-            }
-            catch
-            {
-                var dataSource = ManagerHelper.Entity.Room.GetList().Select(o => new RoomViewModel(o)).ToList();
-                this.gvRoom.DataSource = dataSource;
-            }
+            this.SaveGridVievState();
+            this.GetDataAndSetToGridDataSource();
+            this.RestoreGridViewState();
+        }
+
+        private void GetDataAndSetToGridDataSource()
+        {
+            var dataList = ManagerHelper.Data.GetRoomDataModelList();
+            var viewModelList = this._mapper.Map<List<RoomViewModel>>(dataList);
+            this.gvRoom.DataSource = viewModelList;
         }
 
         #region Scroll and Select row position Save and Restore

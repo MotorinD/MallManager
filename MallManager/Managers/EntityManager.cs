@@ -14,6 +14,6 @@ namespace MallManager.Managers
             this.Room = new SqlRepository<Room>();
         }
 
-        public IBaseRepository<Room> Room { get; set; }
+        public IBaseRepository<Room> Room { get; private set; }
     }
 }

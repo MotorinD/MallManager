@@ -13,7 +13,7 @@ namespace MallManager.Managers
 
         public DBConnectionManager()
         {
-            this._connectionString = ManagerHelper.AppConfig.GetDBConnectionString();
+            this._connectionString = Properties.Settings.Default.ConnectionString;
             this.InitConnectionToDB();
         }
 
@@ -32,7 +32,6 @@ namespace MallManager.Managers
             {
                 throw new Exception("Error on Trying Set Connection to DB", ex);
             }
-
         }
 
         private void InitMSSqlConnection()

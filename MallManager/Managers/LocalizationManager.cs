@@ -4,10 +4,13 @@ using System.Threading;
 
 namespace MallManager.Managers
 {
+    /// <summary>
+    /// Менеджер, реализующий методы для поддержки многоязычности системы
+    /// </summary>
     public class LocalizationManager
     {
         /// <summary>
-        /// Выставить значение культуры соответсвующее указанному в конфиге языку
+        /// Выставить значение культуры соответствующее указанному в конфиге языку
         /// </summary>
         /// <exception cref="ArgumentNullException">В конфиге не указан используемый язык</exception>
         /// <exception cref="ArgumentOutOfRangeException">В конфиге указано некорректное значение используемого языка</exception>
