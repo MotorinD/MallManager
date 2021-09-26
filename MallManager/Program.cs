@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MallManager
@@ -14,10 +11,28 @@ namespace MallManager
         [STAThread]
         static void Main()
         {
+            SetCultureFromSetting();
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new fmMain());
+        }
+
+        private static void SetCultureFromSetting()
+        {
+            try
+            {
+                Managers.ManagerHelper.Localization.SetCultureFromSetting();
+            }
+            catch (ArgumentNullException ex)
+            {
+                MessageBox.Show(MainResourses.ApplyLocalizationErrorMessageNotFoundLanguageNameInConfig + "\n\n" + $"{MainResourses.InnerMessageAboutExeption}: {ex.Message}");
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                MessageBox.Show(MainResourses.ApplyLocalizationErrorMessageIncorrectLanguageNameInConfig + "\n\n" + $"{MainResourses.InnerMessageAboutExeption}: {ex.Message}");
+            }
+
         }
     }
 }

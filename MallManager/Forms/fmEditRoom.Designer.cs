@@ -30,6 +30,7 @@ namespace MallManager.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fmEditRoom));
             this.cbType = new System.Windows.Forms.ComboBox();
             this.tbSquare = new System.Windows.Forms.TextBox();
             this.tbPrice = new System.Windows.Forms.TextBox();
@@ -46,105 +47,60 @@ namespace MallManager.Forms
             // 
             // cbType
             // 
-            this.cbType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbType.DisplayMember = "Name";
+            resources.ApplyResources(this.cbType, "cbType");
             this.cbType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbType.FormattingEnabled = true;
-            this.cbType.Location = new System.Drawing.Point(12, 12);
             this.cbType.Name = "cbType";
-            this.cbType.Size = new System.Drawing.Size(302, 23);
-            this.cbType.TabIndex = 0;
-            this.cbType.ValueMember = "Value";
             // 
             // tbSquare
             // 
-            this.tbSquare.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbSquare.Location = new System.Drawing.Point(12, 41);
+            resources.ApplyResources(this.tbSquare, "tbSquare");
             this.tbSquare.Name = "tbSquare";
-            this.tbSquare.Size = new System.Drawing.Size(302, 23);
-            this.tbSquare.TabIndex = 1;
             // 
             // tbPrice
             // 
-            this.tbPrice.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbPrice.Location = new System.Drawing.Point(12, 70);
+            resources.ApplyResources(this.tbPrice, "tbPrice");
             this.tbPrice.Name = "tbPrice";
-            this.tbPrice.Size = new System.Drawing.Size(302, 23);
-            this.tbPrice.TabIndex = 2;
             // 
             // tbDescription
             // 
-            this.tbDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbDescription.Location = new System.Drawing.Point(12, 99);
+            resources.ApplyResources(this.tbDescription, "tbDescription");
             this.tbDescription.Name = "tbDescription";
-            this.tbDescription.Size = new System.Drawing.Size(302, 23);
-            this.tbDescription.TabIndex = 3;
             // 
             // btnSave
             // 
             this.btnSave.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnSave.Location = new System.Drawing.Point(172, 141);
+            resources.ApplyResources(this.btnSave, "btnSave");
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(100, 23);
-            this.btnSave.TabIndex = 4;
-            this.btnSave.Text = "Сохранить";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.MouseClick += new System.Windows.Forms.MouseEventHandler(this.btnSave_Click);
             // 
             // btnCancel
             // 
-            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.btnCancel, "btnCancel");
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(278, 141);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(100, 23);
-            this.btnCancel.TabIndex = 5;
-            this.btnCancel.Text = "Отменить";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
             // lblType
             // 
-            this.lblType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblType.AutoSize = true;
-            this.lblType.Location = new System.Drawing.Point(320, 15);
+            resources.ApplyResources(this.lblType, "lblType");
             this.lblType.Name = "lblType";
-            this.lblType.Size = new System.Drawing.Size(27, 15);
-            this.lblType.TabIndex = 6;
-            this.lblType.Text = "Тип";
             // 
             // lblSquare
             // 
-            this.lblSquare.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblSquare.AutoSize = true;
-            this.lblSquare.Location = new System.Drawing.Point(320, 44);
+            resources.ApplyResources(this.lblSquare, "lblSquare");
             this.lblSquare.Name = "lblSquare";
-            this.lblSquare.Size = new System.Drawing.Size(59, 15);
-            this.lblSquare.TabIndex = 7;
-            this.lblSquare.Text = "Площадь";
             // 
             // lblPrice
             // 
-            this.lblPrice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblPrice.AutoSize = true;
-            this.lblPrice.Location = new System.Drawing.Point(320, 73);
+            resources.ApplyResources(this.lblPrice, "lblPrice");
             this.lblPrice.Name = "lblPrice";
-            this.lblPrice.Size = new System.Drawing.Size(67, 15);
-            this.lblPrice.TabIndex = 8;
-            this.lblPrice.Text = "Стоимость";
             // 
             // lblDescription
             // 
-            this.lblDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblDescription.AutoSize = true;
-            this.lblDescription.Location = new System.Drawing.Point(320, 102);
+            resources.ApplyResources(this.lblDescription, "lblDescription");
             this.lblDescription.Name = "lblDescription";
-            this.lblDescription.Size = new System.Drawing.Size(62, 15);
-            this.lblDescription.TabIndex = 9;
-            this.lblDescription.Text = "Описание";
             // 
             // errorProvider
             // 
@@ -153,9 +109,8 @@ namespace MallManager.Forms
             // 
             // fmEditRoom
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(390, 176);
             this.Controls.Add(this.lblDescription);
             this.Controls.Add(this.lblPrice);
             this.Controls.Add(this.lblSquare);
@@ -166,11 +121,7 @@ namespace MallManager.Forms
             this.Controls.Add(this.tbPrice);
             this.Controls.Add(this.tbSquare);
             this.Controls.Add(this.cbType);
-            this.MaximumSize = new System.Drawing.Size(700, 215);
-            this.MinimumSize = new System.Drawing.Size(350, 215);
             this.Name = "fmEditRoom";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "fmEditRoom";
             this.Load += new System.EventHandler(this.fmEditClassRoom_Load);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);

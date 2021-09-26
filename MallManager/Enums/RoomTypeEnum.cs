@@ -5,30 +5,31 @@ namespace MallManager.Enums
     /// <summary>
     /// Типы помещений
     /// </summary>
+    [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     public enum RoomTypeEnum
     {
         /// <summary>
         /// Магазин
         /// </summary>
-        [Description("Магазин")]
+        [LocalizedDescription("RoomTypeEnumShop", typeof(MainResourses))]
         Shop = 0,
 
         /// <summary>
         /// Киоск
         /// </summary>
-        [Description("Киоск")]
+        [LocalizedDescription("RoomTypeEnumStand", typeof(MainResourses))]
         Stand = 1,
 
         /// <summary>
         /// Супермаркет
         /// </summary>
-        [Description("Супермаркет")]
+        [LocalizedDescription("RoomTypeEnumSupermarket", typeof(MainResourses))]
         Supermarket = 2,
 
         /// <summary>
         /// ПСЗ(Помещение Свободного Назначения)
         /// </summary>
-        [Description("ПСЗ(Помещение Свободного Назначения)")]
+        [LocalizedDescription("RoomTypeEnumSpace", typeof(MainResourses))]
         Space = 3
     }
 }

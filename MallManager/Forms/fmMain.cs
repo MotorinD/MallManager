@@ -5,6 +5,7 @@ using MallManager.ViewModels;
 using System;
 using System.Data;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace MallManager
@@ -135,9 +136,9 @@ namespace MallManager
                 if (selectedItem == null)
                     return;
 
-                var deleteDialogResult = MessageBox.Show("Удалить выбранное помещение?", "Внимание", MessageBoxButtons.YesNo);
+                var deleteDialogResult = MessageBox.Show(MainResourses.fmMain_ShureDeleteRoomQuestion, MainResourses.fmMain_WarningCaption, MessageBoxButtons.YesNo);
 
-                if (deleteDialogResult == System.Windows.Forms.DialogResult.Yes)
+                if (deleteDialogResult == DialogResult.Yes)
                 {
                     ManagerHelper.Entity.Room.Delete(selectedItem.DataModel.Id);
                     this.RefreshData();

@@ -71,47 +71,10 @@ namespace MallManager.Additional
         {
             var type = enumerationValue.GetType();
             if (!type.IsEnum)
-            {
                 return "";
-            }
-            var memberInfo = type.GetMember(enumerationValue.ToString());
-            if (memberInfo.Length > 0)
-            {
-                var attrs = memberInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
 
-                if (attrs.Length > 0)
-                {
-                    return ((DescriptionAttribute)attrs[0]).Description;
-                }
-            }
-            return enumerationValue.ToString();
-        }
-
-        /// <summary>
-        /// Сформировать список моделей описание-значение на основе указанного перечисления
-        /// </summary>
-        public static List<EnumModel> GetEnumValuesAndDescriptions<T>()
-        {
-            Type enumType = typeof(T);
-
-            if (enumType.BaseType != typeof(Enum))
-                throw new ArgumentException("T is not System.Enum");
-
-            var enumValList = new List<EnumModel>();
-
-            foreach (var e in Enum.GetValues(typeof(T)))
-            {
-                var fi = e.GetType().GetField(e.ToString());
-                var attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
-
-                enumValList.Add(new EnumModel
-                {
-                    Name = (attributes.Length > 0) ? attributes[0].Description : e.ToString(),
-                    Value = (int)e
-                });
-            }
-
-            return enumValList;
+            var converter = new EnumDescriptionTypeConverter(typeof(T));
+            return (string)(converter.ConvertTo(enumerationValue, typeof(string)));
         }
     }
 }

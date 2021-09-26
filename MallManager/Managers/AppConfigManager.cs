@@ -12,7 +12,7 @@ namespace MallManager.Managers
         {
             try
             {
-                return ConfigurationManager.ConnectionStrings["MallManager.Properties.Settings.MallManagerDbConnectionString"].ConnectionString;
+                return Properties.Settings.Default.ConnectionString;
             }
             catch (Exception ex)
             {

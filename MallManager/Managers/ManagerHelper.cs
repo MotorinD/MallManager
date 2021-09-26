@@ -3,7 +3,7 @@
     /// <summary>
     /// Обслуживающий класс для доступа к различным менеджерам/сервисам приложения
     /// </summary>
-    public class ManagerHelper
+    public static class ManagerHelper
     {
         private static AppConfigManager _appConfig;
         public static AppConfigManager AppConfig
@@ -51,6 +51,18 @@
                     _data = new DataManager();
 
                 return _data;
+            }
+        }
+
+        private static LocalizationManager _localization;
+        public static LocalizationManager Localization
+        {
+            get
+            {
+                if (_localization is null)
+                    _localization = new LocalizationManager();
+
+                return _localization;
             }
         }
     }

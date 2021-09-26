@@ -2,9 +2,7 @@
 using MallManager.DAL.Entities;
 using MallManager.Managers;
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
-using MallManager.Additional;
 
 namespace MallManager.Forms
 {
@@ -57,20 +55,19 @@ namespace MallManager.Forms
 
         private void LoadInterface()
         {
-            this.Text = this.IsAdd ? "Добавление помещения" : "Редактирование помещения";
+            this.Text = this.IsAdd ? MainResourses.fmEditRoom_AddRoomCaption : MainResourses.fmEditRoom_EditRoomCaption;
+            this.cbType.DataSource = Enum.GetValues<RoomTypeEnum>();
         }
 
         private void LoadData()
         {
-            this.cbType.DataSource = Extensions.GetEnumValuesAndDescriptions<RoomTypeEnum>();
+            if (this.IsAdd)
+                return;
 
-            if (!this.IsAdd)
-            {
-                this.cbType.SelectedIndex = this.DataModel.Type;
-                this.tbSquare.Text = this.DataModel.Square.ToString();
-                this.tbPrice.Text = this.DataModel.Price.ToString();
-                this.tbDescription.Text = this.DataModel.Description;
-            }
+            this.cbType.SelectedIndex = this.DataModel.Type;
+            this.tbSquare.Text = this.DataModel.Square.ToString();
+            this.tbPrice.Text = this.DataModel.Price.ToString();
+            this.tbDescription.Text = this.DataModel.Description;
         }
 
         private void btnSave_Click(object sender, MouseEventArgs e)
@@ -103,7 +100,7 @@ namespace MallManager.Forms
 
         private void SaveData()
         {
-            this.DataModel.Type = this.cbType.SelectedIndex;
+            this.DataModel.Type = (int)this.cbType.SelectedValue;
             this.DataModel.Square = Convert.ToDecimal(this.tbSquare.Text);
             this.DataModel.Price = Convert.ToDecimal(this.tbPrice.Text);
             this.DataModel.Description = this.tbDescription.Text;

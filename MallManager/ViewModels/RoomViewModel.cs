@@ -1,6 +1,7 @@
 ﻿using MallManager.Enums;
 using MallManager.DAL.Entities;
 using MallManager.Additional;
+using System.ComponentModel;
 
 namespace MallManager.ViewModels
 {
@@ -41,6 +42,7 @@ namespace MallManager.ViewModels
 
         public RoomViewModel(Room dataModel)
         {
+           
             this.DataModel = dataModel;
             this.Type = ((RoomTypeEnum)dataModel.Type).GetDescription();
             this.Square = dataModel.Square;
