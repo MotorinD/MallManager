@@ -1,7 +1,4 @@
-﻿using MallManager.Enums;
-using MallManager.DAL.Entities;
-using MallManager.Additional;
-using System.ComponentModel;
+﻿using MallManager.DataModels;
 
 namespace MallManager.ViewModels
 {
@@ -13,7 +10,7 @@ namespace MallManager.ViewModels
         /// <summary>
         /// Соответвующая модель данных
         /// </summary>
-        public Room DataModel { get; set; }
+        public RoomDataModel DataModel { get; set; }
 
         /// <summary>
         /// Тип

@@ -5,30 +5,6 @@
     /// </summary>
     public static class ManagerHelper
     {
-        private static DBConnectionManager _dbConnection;
-        public static DBConnectionManager DBConnection
-        {
-            get
-            {
-                if (_dbConnection is null)
-                    _dbConnection = new DBConnectionManager();
-
-                return _dbConnection;
-            }
-        }
-
-        private static EntityManager _entity;
-        public static EntityManager Entity
-        {
-            get
-            {
-                if (_entity is null)
-                    _entity = new EntityManager();
-
-                return _entity;
-            }
-        }
-
         private static DataManager _data;
         public static DataManager Data
         {

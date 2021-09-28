@@ -1,8 +1,8 @@
 ﻿using MallManager.Enums;
-using MallManager.DAL.Entities;
 using MallManager.Managers;
 using System;
 using System.Windows.Forms;
+using MallManager.DataModels;
 
 namespace MallManager.Forms
 {
@@ -16,7 +16,7 @@ namespace MallManager.Forms
             this.InitializeComponent();
         }
 
-        public static bool Execute(Room dataModel)
+        public static bool Execute(RoomDataModel dataModel)
         {
             if (dataModel == null)
                 return false;
@@ -33,7 +33,7 @@ namespace MallManager.Forms
         /// <summary>
         /// Редактируемая модель
         /// </summary>
-        public Room DataModel { get; set; }
+        public RoomDataModel DataModel { get; set; }
 
         /// <summary>
         /// Режим редактирования: True если происходит добавление, False если происходит изменение существующей записи
@@ -64,7 +64,7 @@ namespace MallManager.Forms
             if (this.IsAdd)
                 return;
 
-            this.cbType.SelectedIndex = this.DataModel.Type;
+            this.cbType.SelectedIndex = (int)this.DataModel.Type;
             this.tbSquare.Text = this.DataModel.Square.ToString();
             this.tbPrice.Text = this.DataModel.Price.ToString();
             this.tbDescription.Text = this.DataModel.Description;
@@ -100,15 +100,15 @@ namespace MallManager.Forms
 
         private void SaveData()
         {
-            this.DataModel.Type = (int)this.cbType.SelectedValue;
+            this.DataModel.Type = (RoomTypeEnum)this.cbType.SelectedValue;
             this.DataModel.Square = Convert.ToDecimal(this.tbSquare.Text);
             this.DataModel.Price = Convert.ToDecimal(this.tbPrice.Text);
             this.DataModel.Description = this.tbDescription.Text;
 
             if (this.IsAdd)
-                ManagerHelper.Entity.Room.Add(this.DataModel);
+                ManagerHelper.Data.AddRoomDataModel(this.DataModel);
             else
-                ManagerHelper.Entity.Room.Edit(this.DataModel);
+                ManagerHelper.Data.EditRoomDataModel(this.DataModel);
         }
     }
 }

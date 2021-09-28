@@ -7,7 +7,6 @@ namespace MallManager.Managers
     /// </summary>
     public partial class DataManager
     {
-        private EntityManager _entityManager => ManagerHelper.Entity;
         private Mapper _mapper => ManagerHelper.Mapper.GetActive();
     }
 }

@@ -13,7 +13,7 @@ namespace MallManager
     {
         private static CultureInfo _currentCulture => Thread.CurrentThread.CurrentUICulture;
         public static IConfigurationProvider GetConfiguration()
-        {
+        { 
             var config = new AutoMapper.MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Room, RoomDataModel>()

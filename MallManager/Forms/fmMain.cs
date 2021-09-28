@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using MallManager.DAL.Entities;
+using MallManager.DataModels;
 using MallManager.Forms;
 using MallManager.Managers;
 using MallManager.ViewModels;
@@ -92,7 +92,7 @@ namespace MallManager
         {
             try
             {
-                if (fmEditRoom.Execute(new Room()))
+                if (fmEditRoom.Execute(new RoomDataModel()))
                     this.RefreshData();
             }
             catch (Exception ex)
@@ -138,7 +138,7 @@ namespace MallManager
 
                 if (deleteDialogResult == DialogResult.Yes)
                 {
-                    ManagerHelper.Entity.Room.Delete(selectedItem.DataModel.Id);
+                    ManagerHelper.Data.DeleteRoomDataModel(selectedItem.DataModel.Id);
                     this.RefreshData();
                 }
             }
